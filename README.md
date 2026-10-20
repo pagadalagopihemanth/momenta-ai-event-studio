@@ -102,7 +102,7 @@ npm test
 npm run build
 ```
 
-Executed: **65 Python tests, 17 frontend tests, production build passed**. Real browser workflows cover creation, generation preview/confirmation, rescue, impossible-budget rejection, readiness and PDF download. See [verification](submission/VERIFICATION.md). Python emits an existing Starlette/httpx TestClient deprecation warning.
+Executed: **71 Python tests, 17 frontend tests, production build passed**. Real browser workflows cover creation, generation preview/confirmation, rescue, impossible-budget rejection, readiness and PDF download. See [verification](submission/VERIFICATION.md). Python emits an existing Starlette/httpx TestClient deprecation warning.
 
 ## Recording and submission package
 
@@ -113,3 +113,7 @@ Target repository name: **`momenta-ai-event-studio`**. Published repository: [mo
 ## Limitations
 
 Local single-planner MVP; not a hardened multi-user public service. Allowances are illustrative, not actual vendor quotes. Availability and cultural/safety suitability need human review. Readiness is a heuristic, not a guarantee. Two live workflows were verified within the approved allowance; other live workflows retain mocked coverage only. No trademark-clearance claim is made.
+
+## Public deployment preparation
+
+The public demo adapter and Render configuration are prepared locally; no application has been deployed. See [deployment plan, costs and security boundaries](docs/DEPLOYMENT.md). Owner-only local startup remains unchanged. The proposed public preview is explicitly offline, with isolated expiring browser workspaces and no paid AI access.

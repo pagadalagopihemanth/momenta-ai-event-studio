@@ -63,7 +63,7 @@ class EventEdit(Model):
     revision: int
     event: Event
 
-def create_app(db_path: str | None = None) -> FastAPI:
+def create_app(db_path: str | None = None, *, allowed_origins: list[str] | None = None) -> FastAPI:
     app=FastAPI(title='CelebrAI local planning API',version='1.0.0')
     path=db_path or os.getenv('CELEBRAI_WEB_DB','data/celebrai-web.db')
     proposals: dict[str,tuple[float,Plan,str]]={}
@@ -90,7 +90,8 @@ def create_app(db_path: str | None = None) -> FastAPI:
     @app.middleware('http')
     async def local_origin(request: Request, call_next):
         origin=request.headers.get('origin')
-        if origin and origin not in ['http://127.0.0.1:5173','http://localhost:5173','http://127.0.0.1:8000','http://localhost:8000']:
+        permitted = allowed_origins if allowed_origins is not None else ['http://127.0.0.1:5173','http://localhost:5173','http://127.0.0.1:8000','http://localhost:8000']
+        if origin and origin not in permitted:
             return JSONResponse({'detail':'Only the local CelebrAI frontend may access this API.'},status_code=403)
         return await call_next(request)
 

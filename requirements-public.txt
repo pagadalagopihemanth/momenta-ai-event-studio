@@ -1,0 +1,6 @@
+# Public demo has no model SDK or Streamlit runtime. Live requests are blocked.
+fastapi==0.156.1
+uvicorn==0.54.0
+pydantic==2.14.1
+pandas==3.0.6
+reportlab==4.5.1

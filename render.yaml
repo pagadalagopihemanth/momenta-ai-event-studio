@@ -1,0 +1,22 @@
+# Approval required before provisioning this paid service/disk.
+services:
+  - type: web
+    name: momenta-ai-event-studio
+    runtime: docker
+    region: singapore
+    plan: 0.5c-512mb
+    branch: main
+    autoDeployTrigger: "off"
+    healthCheckPath: /api/health
+    numInstances: 1
+    envVars:
+      - key: MOMENTA_SESSION_SECRET
+        generateValue: true
+      - key: MOMENTA_DEMO_DATA
+        value: /var/lib/momenta
+      - key: CELEBRAI_LIVE_ENABLED
+        value: "false"
+    disk:
+      name: momenta-demo-sessions
+      mountPath: /var/lib/momenta
+      sizeGB: 1
