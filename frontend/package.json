@@ -1,5 +1,5 @@
 {
-  "name": "celebrai-studio",
+  "name": "momenta-studio",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -10,9 +10,11 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@fontsource-variable/manrope": "^5.3.0",
     "@radix-ui/react-dialog": "^1.1.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.468.0",
+    "motion": "^14.4.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recharts": "^3.0.0",

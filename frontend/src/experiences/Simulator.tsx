@@ -1,3 +1,4 @@
+import { useReducedMotion } from "motion/react";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import {
@@ -42,6 +43,7 @@ interface Simulation {
 }
 
 export function Simulator({ plan: p }: { plan: Plan }) {
+  const reducedMotion = useReducedMotion();
   const [guests, setGuests] = useState(p.event.guests),
     [budget, setBudget] = useState(p.event.budget / 100),
     [setting, setSetting] = useState<"Indoor" | "Outdoor">("Indoor"),
@@ -263,11 +265,11 @@ export function Simulator({ plan: p }: { plan: Plan }) {
                       <CartesianGrid
                         strokeDasharray="3 5"
                         vertical={false}
-                        stroke="#ede7f2"
+                        stroke="#E4E5DF"
                       />
                       <XAxis
                         dataKey="category"
-                        tick={{ fontSize: 9, fill: "#9a87a6" }}
+                        tick={{ fontSize: 9, fill: "#737B8C" }}
                         angle={-30}
                         textAnchor="end"
                         interval={0}
@@ -275,7 +277,7 @@ export function Simulator({ plan: p }: { plan: Plan }) {
                         tickLine={false}
                       />
                       <YAxis
-                        tick={{ fontSize: 9, fill: "#9a87a6" }}
+                        tick={{ fontSize: 9, fill: "#737B8C" }}
                         axisLine={false}
                         tickLine={false}
                       />
@@ -287,13 +289,15 @@ export function Simulator({ plan: p }: { plan: Plan }) {
                       />
                       <Legend wrapperStyle={{ fontSize: 10, paddingTop: 20 }} />
                       <Bar
+                        isAnimationActive={!reducedMotion}
                         dataKey="Current"
-                        fill="#D6C7E2"
+                        fill="#B8CFC7"
                         radius={[3, 3, 0, 0]}
                       />
                       <Bar
+                        isAnimationActive={!reducedMotion}
                         dataKey="Scenario"
-                        fill="#9471B1"
+                        fill="#287D69"
                         radius={[3, 3, 0, 0]}
                       />
                     </BarChart>

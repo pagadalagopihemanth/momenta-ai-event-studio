@@ -1,3 +1,6 @@
+import { motion, MotionConfig, useReducedMotion } from "motion/react";
+import { Landing } from "./components/Landing";
+import { Wordmark } from "./components/Brand";
 import { SectionHead, PanelHead } from "./components/layout";
 import type { SaveFunction } from "./types";
 import { useEffect, useState } from "react";
@@ -63,25 +66,38 @@ const navigation = [
   { id: "readiness", label: "Event readiness", icon: ShieldCheck },
 ];
 const colors = [
-  "#8B72BC",
-  "#C5B1DE",
-  "#E5C4AC",
-  "#9EAE9C",
-  "#DAD0E8",
-  "#B9C7D3",
-  "#D9B2B9",
+  "#287D69",
+  "#64E4C4",
+  "#FFB86B",
+  "#737B8C",
+  "#B8CFC7",
+  "#ABC0CD",
+  "#C78C72",
   "#D5CBAC",
-  "#EBE5DA",
+  "#E8E4DA",
 ];
 export const photo = (p: Plan) =>
   p.event.kind === "Wedding"
-    ? "/images/wedding.jpg"
+    ? "/images/wedding.webp"
     : p.event.kind === "Birthday"
-      ? "/images/birthday.jpg"
-      : "/images/meetup.jpg";
+      ? "/images/birthday.webp"
+      : "/images/meetup.webp";
 
 export default function App() {
   const ai = useAI();
+  const [home, setHome] = useState(window.location.hash !== "#studio");
+  const [initialKind, setInitialKind] =
+    useState<Plan["event"]["kind"]>("Wedding");
+  function enterStudio() {
+    setHome(false);
+    window.history.replaceState(null, "", "#studio");
+    window.scrollTo(0, 0);
+  }
+  function createOccasion(kind: Plan["event"]["kind"] = "Wedding") {
+    setInitialKind(kind);
+    setGuide(null);
+    setCreator(true);
+  }
   const [guide, setGuide] = useState<number | null>(null);
   const [plans, setPlans] = useState<Plan[]>([]),
     [plan, setPlan] = useState<Plan | null>(null),
@@ -151,6 +167,7 @@ export default function App() {
     }
   }, [notice]);
   function select(p: Plan) {
+    enterStudio();
     setPlan(p);
     setChooser(false);
     setPage("overview");
@@ -193,8 +210,8 @@ export default function App() {
         <div className="brand-mark">
           <Sparkles />
         </div>
-        <h1>A little magic is on its way.</h1>
-        <p>Opening your celebration studio…</p>
+        <h1>Make moments happen.</h1>
+        <p>Opening Momenta · AI Event Studio…</p>
         <LoaderCircle className="spin" />
       </div>
     );
@@ -215,348 +232,374 @@ export default function App() {
     );
   const p = plan;
   return (
-    <div className="app-shell">
-      <a className="skip-link" href="#main">
-        Skip to content
-      </a>
-      {mobile && (
-        <button
-          className="sidebar-scrim"
-          aria-label="Close navigation"
-          onClick={() => setMobile(false)}
-        />
-      )}
-      <aside
-        id="site-navigation"
-        tabIndex={-1}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") {
-            setMobile(false);
-            document.getElementById("navigation-toggle")?.focus();
-          }
-        }}
-        className={"sidebar " + (mobile ? "open" : "")}
-        aria-label="Main navigation"
-      >
-        <a
-          className="brand"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            navigate("overview");
-          }}
-        >
-          <span className="brand-mark">
-            <Sparkles size={22} />
-          </span>
-          Celebr<span>AI</span>
-          <span className="brand-dot">®</span>
-        </a>
-        <p className="brand-tagline">Made for your moments.</p>
-        <button
-          className="event-selector"
-          onClick={() => setChooser(true)}
-          aria-label="Select celebration"
-        >
-          <span className="event-monogram">
-            {p.event.kind === "Wedding" ? (
-              <Heart size={18} />
-            ) : (
-              <Sparkles size={18} />
-            )}
-          </span>
-          <span>
-            <small>YOUR CELEBRATION</small>
-            <strong>{p.event.name.split(" · ")[0]}</strong>
-          </span>
-          <ChevronDown size={15} />
-        </button>
-        <span className="nav-label">THE PLANNING SPACE</span>
-        <nav>
-          {navigation.map(({ id, label, icon: Icon }) => (
+    <MotionConfig reducedMotion="user">
+      <div className={home ? "home-shell" : "app-shell"}>
+        {home && (
+          <Landing
+            onEnter={enterStudio}
+            onCreate={createOccasion}
+            onDemo={() => {
+              enterStudio();
+              setGuide(0);
+              navigate("overview");
+            }}
+          />
+        )}
+        <div className="studio-shell" hidden={home}>
+          <a className="skip-link" href="#main">
+            Skip to content
+          </a>
+          {mobile && (
             <button
-              key={id}
-              className={page === id ? "nav-item active" : "nav-item"}
-              onClick={() => navigate(id)}
-              aria-current={page === id ? "page" : undefined}
-            >
-              <Icon size={18} />
-              <span>{label}</span>
-              {id === "studio" && <span className="mini-ai">AI</span>}
-            </button>
-          ))}
-        </nav>
-        <div className="sidebar-bottom">
-          <div className="sidebar-note">
-            <span className="little-star">✦</span>
-            <h3>Big moments. Less overwhelm.</h3>
-            <p>Your ideas, plans and people. Beautifully together.</p>
-            <button onClick={() => navigate("studio")}>
-              Find your next step <ArrowUpRight size={14} />
-            </button>
-          </div>
-          <div className="local-status">
-            <span className="status-dot" />
-            Offline demo ready <Leaf size={14} />
-          </div>
-        </div>
-      </aside>
-      <div className="workspace" inert={mobile}>
-        <header className="topbar">
-          <div className="breadcrumbs">
-            <button
-              className="icon-button mobile-menu"
-              id="navigation-toggle"
-              aria-controls="site-navigation"
-              aria-expanded={mobile}
-              aria-label="Open navigation"
-              onClick={() => setMobile(true)}
-            >
-              <Menu size={21} />
-            </button>
-            <span>Your workspace</span>
-            <span className="breadcrumb-slash">/</span>
-            <strong>{current.label}</strong>
-          </div>
-          <div className="top-actions">
-            <button
-              type="button"
-              className="text-link guided-demo-trigger"
-              onClick={() => {
-                setGuide(0);
-                navigate("overview");
+              className="sidebar-scrim"
+              aria-label="Close navigation"
+              onClick={() => setMobile(false)}
+            />
+          )}
+          <aside
+            id="site-navigation"
+            tabIndex={-1}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") {
+                setMobile(false);
+                document.getElementById("navigation-toggle")?.focus();
+              }
+            }}
+            className={"sidebar " + (mobile ? "open" : "")}
+            aria-label="Main navigation"
+          >
+            <a
+              className="brand"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setHome(true);
+                window.history.replaceState(null, "", "#home");
+                window.scrollTo(0, 0);
               }}
             >
-              2-minute demo
-            </button>
-            <AIControls />
-            <span className="offline">
-              <span className="status-dot" />
-              {ai.mode === "live" ? "Server-side AI" : "Local & private"}
-            </span>
+              <Wordmark />
+            </a>
+            <p className="brand-tagline">AI Event Studio</p>
             <button
-              className="avatar"
-              aria-label="Select your celebration"
+              className="event-selector"
               onClick={() => setChooser(true)}
+              aria-label="Select celebration"
             >
-              C
-            </button>
-          </div>
-        </header>
-        <main id="main" tabIndex={-1}>
-          {guide !== null && (
-            <DemoGuide
-              step={guide}
-              plan={p}
-              onCreate={() => setCreator(true)}
-              onNavigate={navigate}
-              onStep={setGuide}
-              onClose={() => setGuide(null)}
-            />
-          )}
-          <div className="plan-provenance">
-            <Badge tone={p.source.startsWith("Live AI") ? "purple" : "sage"}>
-              {p.source.startsWith("Live AI")
-                ? "Saved plan · Live AI suggestions"
-                : "Saved plan · Offline Demo"}
-            </Badge>
-            <span className="quiet">
-              Amounts and deadlines are validated in Python.
-            </span>
-          </div>
-          {error && (
-            <div className="alert error" role="alert">
-              <TriangleAlert size={18} />
-              <span>{error}</span>
-              <button
-                className="icon-button"
-                aria-label="Dismiss error"
-                onClick={() => setError("")}
-              >
-                <X size={16} />
-              </button>
-            </div>
-          )}
-          {page === "overview" && (
-            <Overview
-              plan={p}
-              health={health}
-              navigate={navigate}
-              onCreate={() => setCreator(true)}
-            />
-          )}
-          {page === "budget" && (
-            <Budget
-              key={p.id + "-" + p.revision}
-              plan={p}
-              busy={busy}
-              save={save}
-              onPreview={reviewPreview}
-            />
-          )}
-          {page === "studio" && (
-            <PlanningStudio
-              key={p.id}
-              plan={p}
-              busy={busy}
-              save={save}
-              onPreview={reviewPreview}
-              onEdit={() => setEditingBrief(true)}
-            />
-          )}
-          {page === "inspiration" && (
-            <Inspiration
-              key={p.id}
-              plan={p}
-              busy={busy}
-              save={save}
-              onPreview={reviewPreview}
-            />
-          )}
-          {page === "timeline" && (
-            <Timeline
-              key={p.id}
-              plan={p}
-              busy={busy}
-              save={save}
-              today={health?.today || new Date().toLocaleDateString("en-CA")}
-            />
-          )}
-          {page === "vendors" && (
-            <Vendors key={p.id} plan={p} busy={busy} save={save} />
-          )}
-          {page === "simulator" && (
-            <Simulator key={p.id + "-" + p.revision} plan={p} />
-          )}
-          {page === "readiness" && (
-            <Readiness plan={p} health={health} navigate={navigate} />
-          )}
-          <footer className="page-footer">
-            <span>
-              <Sparkles size={13} />
-              Thoughtfully planned. Joyfully celebrated.
-            </span>
-            <span>
-              {ai.mode === "live"
-                ? "Live AI · approval required for each request"
-                : "Offline Demo · no model calls"}
-            </span>
-          </footer>
-        </main>
-      </div>
-      {notice && (
-        <div className="toast" role="status">
-          <CheckCheck size={19} />
-          {notice}
-        </div>
-      )}
-      <Modal
-        title="Your celebrations"
-        description="Pick up where you left off. Every demo is editable and saved locally."
-        open={chooser}
-        onClose={() => setChooser(false)}
-      >
-        <div className="event-list">
-          {plans.map((event) => (
-            <button
-              key={event.id}
-              className={
-                "event-option " + (event.id === p.id ? "selected" : "")
-              }
-              onClick={() => select(event)}
-            >
-              <img src={photo(event)} alt="" />
-              <span>
-                <strong>{event.event.name}</strong>
-                <small>
-                  {event.event.kind} · {event.event.guests} guests ·{" "}
-                  {money(event.event.budget, event.event.currency)}
-                </small>
+              <span className="event-monogram">
+                {p.event.kind === "Wedding" ? (
+                  <Heart size={18} />
+                ) : (
+                  <Sparkles size={18} />
+                )}
               </span>
-              {event.id === p.id ? (
-                <Check size={20} />
-              ) : (
-                <ArrowUpRight size={18} />
-              )}
+              <span>
+                <small>YOUR CELEBRATION</small>
+                <strong>{p.event.name.split(" · ")[0]}</strong>
+              </span>
+              <ChevronDown size={15} />
             </button>
-          ))}
+            <span className="nav-label">THE PLANNING SPACE</span>
+            <nav>
+              {navigation.map(({ id, label, icon: Icon }) => (
+                <button
+                  key={id}
+                  className={page === id ? "nav-item active" : "nav-item"}
+                  onClick={() => navigate(id)}
+                  aria-current={page === id ? "page" : undefined}
+                >
+                  <Icon size={18} />
+                  <span>{label}</span>
+                  {id === "studio" && <span className="mini-ai">AI</span>}
+                </button>
+              ))}
+            </nav>
+            <div className="sidebar-bottom">
+              <div className="sidebar-note">
+                <span className="little-star">✦</span>
+                <h3>Big moments. Less overwhelm.</h3>
+                <p>Your ideas, plans and people. Beautifully together.</p>
+                <button onClick={() => navigate("studio")}>
+                  Find your next step <ArrowUpRight size={14} />
+                </button>
+              </div>
+              <div className="local-status">
+                <span className="status-dot" />
+                Offline demo ready <Leaf size={14} />
+              </div>
+            </div>
+          </aside>
+          <div className="workspace" inert={mobile}>
+            <header className="topbar">
+              <div className="breadcrumbs">
+                <button
+                  className="icon-button mobile-menu"
+                  id="navigation-toggle"
+                  aria-controls="site-navigation"
+                  aria-expanded={mobile}
+                  aria-label="Open navigation"
+                  onClick={() => setMobile(true)}
+                >
+                  <Menu size={21} />
+                </button>
+                <span>Your workspace</span>
+                <span className="breadcrumb-slash">/</span>
+                <strong>{current.label}</strong>
+              </div>
+              <div className="top-actions">
+                <button
+                  type="button"
+                  className="text-link guided-demo-trigger"
+                  onClick={() => {
+                    setGuide(0);
+                    navigate("overview");
+                  }}
+                >
+                  2-minute demo
+                </button>
+                <AIControls />
+                <span className="offline">
+                  <span className="status-dot" />
+                  {ai.mode === "live" ? "Server-side AI" : "Local & private"}
+                </span>
+                <button
+                  className="avatar"
+                  aria-label="Select your celebration"
+                  onClick={() => setChooser(true)}
+                >
+                  M
+                </button>
+              </div>
+            </header>
+            <main id="main" tabIndex={-1}>
+              <motion.div
+                key={page + p.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.22 }}
+              >
+                {guide !== null && (
+                  <DemoGuide
+                    step={guide}
+                    plan={p}
+                    onCreate={() => setCreator(true)}
+                    onNavigate={navigate}
+                    onStep={setGuide}
+                    onClose={() => setGuide(null)}
+                  />
+                )}
+                <div className="plan-provenance">
+                  <Badge
+                    tone={p.source.startsWith("Live AI") ? "purple" : "sage"}
+                  >
+                    {p.source.startsWith("Live AI")
+                      ? "Saved plan · Live AI suggestions"
+                      : "Saved plan · Offline Demo"}
+                  </Badge>
+                  <span className="quiet">
+                    Amounts and deadlines are validated in Python.
+                  </span>
+                </div>
+                {error && (
+                  <div className="alert error" role="alert">
+                    <TriangleAlert size={18} />
+                    <span>{error}</span>
+                    <button
+                      className="icon-button"
+                      aria-label="Dismiss error"
+                      onClick={() => setError("")}
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                )}
+                {page === "overview" && (
+                  <Overview
+                    plan={p}
+                    health={health}
+                    navigate={navigate}
+                    onCreate={() => setCreator(true)}
+                  />
+                )}
+                {page === "budget" && (
+                  <Budget
+                    key={p.id + "-" + p.revision}
+                    plan={p}
+                    busy={busy}
+                    save={save}
+                    onPreview={reviewPreview}
+                  />
+                )}
+                {page === "studio" && (
+                  <PlanningStudio
+                    key={p.id}
+                    plan={p}
+                    busy={busy}
+                    save={save}
+                    onPreview={reviewPreview}
+                    onEdit={() => setEditingBrief(true)}
+                  />
+                )}
+                {page === "inspiration" && (
+                  <Inspiration
+                    key={p.id}
+                    plan={p}
+                    busy={busy}
+                    save={save}
+                    onPreview={reviewPreview}
+                  />
+                )}
+                {page === "timeline" && (
+                  <Timeline
+                    key={p.id}
+                    plan={p}
+                    busy={busy}
+                    save={save}
+                    today={
+                      health?.today || new Date().toLocaleDateString("en-CA")
+                    }
+                  />
+                )}
+                {page === "vendors" && (
+                  <Vendors key={p.id} plan={p} busy={busy} save={save} />
+                )}
+                {page === "simulator" && (
+                  <Simulator key={p.id + "-" + p.revision} plan={p} />
+                )}
+                {page === "readiness" && (
+                  <Readiness plan={p} health={health} navigate={navigate} />
+                )}
+              </motion.div>
+              <footer className="page-footer">
+                <span>
+                  <Sparkles size={13} />
+                  Momenta · Make moments happen.
+                </span>
+                <span>
+                  {ai.mode === "live"
+                    ? "Live AI · approval required for each request"
+                    : "Offline Demo · no model calls"}
+                </span>
+              </footer>
+            </main>
+          </div>
         </div>
-        <Button
-          className="full"
-          onClick={() => {
-            setChooser(false);
-            setCreator(true);
-          }}
+        {notice && (
+          <div className="toast" role="status">
+            <CheckCheck size={19} />
+            {notice}
+          </div>
+        )}
+        <Modal
+          title="Your celebrations"
+          description="Pick up where you left off. Every demo is editable and saved locally."
+          open={chooser}
+          onClose={() => setChooser(false)}
         >
-          <Plus size={16} />
-          Plan a new celebration
-        </Button>
-      </Modal>
-      <Modal
-        title="Something wonderful starts here."
-        description="Tell us a little about your moment. The existing Python planner handles the details."
-        open={creator}
-        onClose={() => setCreator(false)}
-        wide
-      >
-        {creator && (
-          <EventForm
-            demo={guide === 0}
-            busy={busy}
-            onCancel={() => setCreator(false)}
-            onSave={async (event) => {
-              await save("/plans", event, "POST");
-              setCreator(false);
-              setPage("overview");
-              if (guide === 0 && event.kind === "Wedding") setGuide(1);
+          <div className="event-list">
+            {plans.map((event) => (
+              <button
+                key={event.id}
+                className={
+                  "event-option " + (event.id === p.id ? "selected" : "")
+                }
+                onClick={() => select(event)}
+              >
+                <img src={photo(event)} alt="" />
+                <span>
+                  <strong>{event.event.name}</strong>
+                  <small>
+                    {event.event.kind} · {event.event.guests} guests ·{" "}
+                    {money(event.event.budget, event.event.currency)}
+                  </small>
+                </span>
+                {event.id === p.id ? (
+                  <Check size={20} />
+                ) : (
+                  <ArrowUpRight size={18} />
+                )}
+              </button>
+            ))}
+          </div>
+          <Button
+            className="full"
+            onClick={() => {
+              setChooser(false);
+              setCreator(true);
             }}
-          />
-        )}
-      </Modal>
-      <Modal
-        title="Your celebration, your way."
-        description="Refine your brief. Date changes rebuild the timeline; written suggestions refresh."
-        open={editingBrief}
-        onClose={() => setEditingBrief(false)}
-        wide
-      >
-        {editingBrief && (
-          <EventForm
-            existing={p}
-            busy={busy}
-            onCancel={() => setEditingBrief(false)}
-            onSave={async (event) => {
-              await save(`/plans/${p.id}/event`, {
-                revision: p.revision,
-                event,
-              });
-              setEditingBrief(false);
-            }}
-          />
-        )}
-      </Modal>
-      <ProposalReview
-        plan={p}
-        proposal={proposal}
-        busy={busy}
-        onClose={() => {
-          setProposal(null);
-          if (guide === 4) setGuide(3);
-        }}
-        onConfirm={async () => {
-          if (proposal) {
-            await save(
-              `/plans/${p.id}/confirm`,
-              { token: proposal.token, confirmed: true },
-              "POST",
-            );
+          >
+            <Plus size={16} />
+            Plan a new celebration
+          </Button>
+        </Modal>
+        <Modal
+          title="Something wonderful starts here."
+          description="Your people. Your priorities. Your kind of celebration."
+          open={creator}
+          onClose={() => setCreator(false)}
+          wide
+        >
+          {creator && (
+            <EventForm
+              initialKind={initialKind}
+              demo={guide === 0}
+              busy={busy}
+              onCancel={() => setCreator(false)}
+              onSave={async (event) => {
+                await save("/plans", event, "POST");
+                setCreator(false);
+                enterStudio();
+                setPage("overview");
+                if (guide === 0 && event.kind === "Wedding") setGuide(1);
+              }}
+            />
+          )}
+        </Modal>
+        <Modal
+          title="Your celebration, your way."
+          description="Refine your brief. Date changes rebuild the timeline; written suggestions refresh."
+          open={editingBrief}
+          onClose={() => setEditingBrief(false)}
+          wide
+        >
+          {editingBrief && (
+            <EventForm
+              existing={p}
+              busy={busy}
+              onCancel={() => setEditingBrief(false)}
+              onSave={async (event) => {
+                await save(`/plans/${p.id}/event`, {
+                  revision: p.revision,
+                  event,
+                });
+                setEditingBrief(false);
+              }}
+            />
+          )}
+        </Modal>
+        <ProposalReview
+          plan={p}
+          proposal={proposal}
+          busy={busy}
+          onClose={() => {
             setProposal(null);
-            if (guide === 1) setGuide(2);
-            else if (guide === 4) setGuide(5);
-          }
-        }}
-      />
-    </div>
+            if (guide === 4) setGuide(3);
+          }}
+          onConfirm={async () => {
+            if (proposal) {
+              await save(
+                `/plans/${p.id}/confirm`,
+                { token: proposal.token, confirmed: true },
+                "POST",
+              );
+              setProposal(null);
+              if (guide === 1) setGuide(2);
+              else if (guide === 4) setGuide(5);
+            }
+          }}
+        />
+      </div>
+    </MotionConfig>
   );
 }
 
@@ -580,8 +623,8 @@ function Overview({
   return (
     <div className="page-enter">
       <SectionHead
-        eyebrow="LET’S MAKE IT MEMORABLE"
-        title="Good things are coming."
+        eyebrow="THE COMMAND CENTER"
+        title="Your moment. Coming together."
         description="A little clarity, a little inspiration. Everything you need for your next big moment."
         action={
           <Button variant="secondary" onClick={onCreate}>
@@ -797,12 +840,15 @@ function Overview({
         </div>
         <div className="inspiration-thumbs">
           <img
-            src="/images/garden.jpg"
+            src="/images/garden.webp"
             alt="Romantic floral celebration table"
           />
-          <img src="/images/wedding.jpg" alt="Warm candlelit wedding setting" />
+          <img
+            src="/images/wedding.webp"
+            alt="Warm candlelit wedding setting"
+          />
           <div className="palette-stack">
-            <span style={{ background: "#957CA6" }} />
+            <span style={{ background: "#287D69" }} />
             <span style={{ background: "#D9C2B0" }} />
             <span style={{ background: "#A7AF98" }} />
             <span style={{ background: "#EFE5D6" }} />
@@ -851,11 +897,13 @@ function Metric({
   );
 }
 export function BudgetDonut({ plan: p }: { plan: Plan }) {
+  const reducedMotion = useReducedMotion();
   return (
     <div className="donut-wrap">
       <ResponsiveContainer width="100%" height={210}>
         <PieChart accessibilityLayer>
           <Pie
+            isAnimationActive={!reducedMotion}
             data={p.budget}
             dataKey="allocated"
             nameKey="category"

@@ -29,7 +29,7 @@ export async function fetchExport(planId: string, kind: string) {
   if (!["pdf", "budget", "tasks", "vendors"].includes(kind))
     throw new Error("Unknown export type.");
   const response = await fetch(
-    `/api/plans/${encodeURIComponent(planId)}/exports/${kind}`,
+    `/api/plans/${encodeURIComponent(planId)}/exports/${kind}?brand=momenta`,
     { signal: AbortSignal.timeout(30000) },
   );
   if (!response.ok) {

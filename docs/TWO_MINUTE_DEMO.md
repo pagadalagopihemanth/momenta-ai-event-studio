@@ -1,4 +1,4 @@
-# CelebrAI Studio: two-minute judge walkthrough
+# Momenta | AI Event Studio: two-minute judge walkthrough
 
 Use the **2-minute demo** control in the React top bar. Offline Demo works without credentials and demonstrates the full confirmation/persistence experience. For model-backed demonstration, configure the server and select Live AI first; approve each call separately. Timing is a suggested presentation pace, not an official challenge limit.
 

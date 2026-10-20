@@ -1,6 +1,6 @@
-# CelebrAI Studio
+# Momenta | AI Event Studio
 
-A separate React + TypeScript frontend for the original CelebrAI Python application. Uses Vite, Tailwind CSS v4, accessible Radix Dialog primitives, Lucide icons and Recharts. Reusable Button, Badge and Modal components follow a shadcn-style composition approach; this project does not depend on a generated shadcn application template.
+Make moments happen. A separate React + TypeScript frontend for the original CelebrAI Python application. Uses Vite, Tailwind CSS v4, accessible Radix Dialog primitives, Lucide icons, Motion for React, locally bundled Manrope and Recharts. Reusable Button, Badge and Modal components follow a shadcn-style composition approach; this project does not depend on a generated shadcn application template.
 
 ## Run the finished app (one server)
 
@@ -111,3 +111,7 @@ Frontend tests cover API serialization, error handling, currency/date presentati
 This remains a local single-planner application without authentication or per-user isolation. The readiness score measures recorded progress, not safety. Simulation uses stated heuristics rather than real market quotes. Dates use the API host's date. Offline copilot supports the original fixed intent set; it is not a local language model. Chat history is temporary and resets when the Studio is unmounted or reloaded. Saved suggestions and accepted changes persist. Unsaved editor drafts are not saved automatically. Images and palettes are curated references, not generated visual designs. PDF language/font limitations of the original export service still apply.
 
 See `../docs/MIGRATION.md`, `../docs/WEB_VERIFICATION.md` and `../docs/ASSETS.md`.
+
+## Momenta rebrand
+
+The landing page opens the existing event wizard with occasion-specific defaults, enters the saved workspace, or launches the seven-step guided wedding demonstration. Workspace branding, imagery, charts and motion use obsidian, ivory, mint, amber and slate. Reduced motion is respected. Internal `celebrai` module names, database paths, API endpoints and local-storage keys remain compatible. Web downloads request `?brand=momenta`; legacy requests retain CelebrAI filenames and PDF branding. Install `requirements-test.txt` for PDF text/metadata integration checks. See `docs/MOMENTA_VERIFICATION.md`.

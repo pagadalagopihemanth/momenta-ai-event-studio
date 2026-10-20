@@ -84,7 +84,7 @@ export function Readiness({
               <div
                 className="score-ring"
                 style={{
-                  background: `conic-gradient(#9B7CB4 ${h.score * 3.6}deg,#EEE6F3 0)`,
+                  background: `conic-gradient(#287D69 ${h.score * 3.6}deg,#E3E5DF 0)`,
                 }}
               >
                 <div>

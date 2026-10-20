@@ -1,3 +1,5 @@
+import { motion, useReducedMotion } from "motion/react";
+import { BrandMark } from "../components/Brand";
 import { useState } from "react";
 import {
   Sparkles,
@@ -34,6 +36,7 @@ export function PlanningStudio({
   onEdit,
 }: { onPreview: Preview; onEdit: () => void } & BaseProps) {
   const ai = useAI();
+  const reducedMotion = useReducedMotion();
   const [message, setMessage] = useState(""),
     [thinking, setThinking] = useState(false),
     [error, setError] = useState(""),
@@ -128,9 +131,26 @@ export function PlanningStudio({
       <div className="studio-grid">
         <section className="panel chat-panel">
           <div className="chat-title">
-            <span className="studio-spark">
-              <Sparkles size={22} />
-            </span>
+            <motion.span
+              className="studio-spark"
+              animate={
+                thinking && !reducedMotion
+                  ? { scale: [1, 1.08, 1], opacity: [1, 0.65, 1] }
+                  : { scale: 1, opacity: 1 }
+              }
+              transition={
+                thinking && !reducedMotion
+                  ? { duration: 1.2, repeat: Infinity }
+                  : { duration: 0.2 }
+              }
+              aria-label={
+                thinking
+                  ? "Planning partner is thinking"
+                  : "Momenta planning partner"
+              }
+            >
+              <BrandMark />
+            </motion.span>
             <div>
               <h2>Your planning partner</h2>
               <p>Context-aware · Connected to {p.event.name}</p>

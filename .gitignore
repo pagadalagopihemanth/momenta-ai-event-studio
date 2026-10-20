@@ -2,6 +2,8 @@
 __pycache__/
 .pytest_cache/
 .env
+.env.*
+!.env.example
 .streamlit/secrets.toml
 data/
 *.db*
@@ -10,3 +12,17 @@ tmp/
 frontend/node_modules/
 frontend/dist/
 frontend/*.tsbuildinfo
+
+# Submission recordings, isolated data, and local browser runtimes are never source.
+submission/*.mp4
+submission/*.webm
+submission/*.zip
+submission/private/
+submission/raw/
+submission/frames/
+submission/run-*/
+playwright-report/
+test-results/
+
+submission/latest-recording.json
+submission/video-metadata.txt

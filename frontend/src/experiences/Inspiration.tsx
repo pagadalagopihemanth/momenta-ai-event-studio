@@ -17,7 +17,7 @@ const inspirations = [
   {
     name: "Lavender & linen",
     category: "Themes",
-    image: "wedding.jpg",
+    image: "wedding.webp",
     palette: ["#9D88AA", "#D8C6C2", "#E8E0CF", "#9CA58C"],
     feeling: "Soft florals. Natural textures. A little romance.",
     idea: "Moodboard · Lavender & linen: muted violet flowers, linen table settings and reusable glass votives. Ask decorators for seasonal, locally available alternatives.",
@@ -25,7 +25,7 @@ const inspirations = [
   {
     name: "A garden kind of magic",
     category: "Decor",
-    image: "garden.jpg",
+    image: "garden.webp",
     palette: ["#8A9B7D", "#D9BCA5", "#F0E9DA", "#BDA3AE"],
     feeling: "Bring the outdoors in, thoughtfully.",
     idea: "Moodboard · Garden magic: potted greenery, seasonal flowers and reusable fabric backdrops. Confirm allergy needs, sight lines and accessible paths.",
@@ -33,7 +33,7 @@ const inspirations = [
   {
     name: "Little sparks of joy",
     category: "Experiences",
-    image: "birthday.jpg",
+    image: "birthday.webp",
     palette: ["#C7ADCA", "#DDB292", "#EBC96F", "#87A69B"],
     feeling: "Playful details for your favorite people.",
     idea: "Moodboard · Little sparks of joy: a guest memory station, age-appropriate games and a photo corner. Confirm supervision, allergies and opt-in photography.",
@@ -41,7 +41,7 @@ const inspirations = [
   {
     name: "Ideas, shared beautifully",
     category: "Experiences",
-    image: "meetup.jpg",
+    image: "meetup.webp",
     palette: ["#A996B0", "#9AAB9A", "#E2D5BE", "#888F9E"],
     feeling: "Make room for meaningful connections.",
     idea: "Moodboard · Ideas shared: lightning talks, facilitated networking and a quiet conversation corner. Check Wi-Fi, AV, seating and accessible participation.",
@@ -49,7 +49,7 @@ const inspirations = [
   {
     name: "Warm light, lasting memories",
     category: "Decor",
-    image: "wedding.jpg",
+    image: "wedding.webp",
     palette: ["#C2A689", "#E2CDA8", "#AF9BAA", "#848D77"],
     feeling: "An intimate glow. An unforgettable evening.",
     idea: "Moodboard · Warm light: use venue-approved flameless candles, shared floral installations and a clear photography schedule. Keep exits and walkways unobstructed.",
@@ -57,7 +57,7 @@ const inspirations = [
   {
     name: "Less waste. More wonder.",
     category: "Sustainable",
-    image: "garden.jpg",
+    image: "garden.webp",
     palette: ["#8E9D7C", "#B7C0AA", "#E1D6BD", "#B9A294"],
     feeling: "Beautiful celebrations can tread lightly.",
     idea: "Moodboard · Less waste: digital RSVPs, refillable water stations, rented decor and useful local return gifts. Arrange waste sorting with the venue.",
@@ -163,7 +163,7 @@ export function Inspiration({
           </p>
         </div>
         <div className="large-palette">
-          {["#AD99B5", "#DAC5B5", "#EAE3D3", "#A7AF99", "#7E6B8B"].map((c) => (
+          {["#111318", "#64E4C4", "#F5F2EB", "#FFB86B", "#737B8C"].map((c) => (
             <div key={c} style={{ background: c }}>
               <span>{c}</span>
             </div>

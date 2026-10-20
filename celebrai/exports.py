@@ -20,7 +20,7 @@ def csv_export(plan: Plan, section: str) -> bytes:
             elif isinstance(value,str) and value.lstrip().startswith(('=','+','-','@')): row[key]="'"+value
     return pd.DataFrame(rows).to_csv(index=False).encode('utf-8-sig')
 
-def pdf_export(plan: Plan) -> bytes:
+def pdf_export(plan: Plan, *, brand: str = "CelebrAI", tagline: str = "Plan smarter. Celebrate better.") -> bytes:
     output=BytesIO(); styles=getSampleStyleSheet(); story=[]
     regular=Path('C:/Windows/Fonts/arial.ttf')
     bold=Path('C:/Windows/Fonts/arialbd.ttf')
@@ -41,7 +41,7 @@ def pdf_export(plan: Plan) -> bytes:
             story.append(KeepTogether([heading,prior_gap,paragraph,gap]))
         else:
             story.extend([paragraph,gap])
-    add('CelebrAI | Plan smarter. Celebrate better.','Title')
+    add(f'{brand} | {tagline}','Title')
     add(plan.event.name,'Heading1'); add(f'{plan.event.date} | {plan.event.city} | {plan.event.guests} guests')
     add(f'Total budget: {money(plan.event.budget,plan.event.currency)} | Duration: {plan.event.duration} hours | Priorities: {", ".join(plan.event.priorities) or "To be agreed"}')
     add(plan.source); add(plan.suggestions.overview)
@@ -50,7 +50,7 @@ def pdf_export(plan: Plan) -> bytes:
     from reportlab.lib.styles import ParagraphStyle
     cell=ParagraphStyle('BudgetCell',parent=styles['BodyText'],fontSize=8,leading=11,wordWrap='CJK')
     data=[[Paragraph(escape(str(value)),cell) for value in row] for row in data]
-    table=Table(data,repeatRows=1,colWidths=[135,117,117,117],hAlign='LEFT'); table.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('BACKGROUND',(0,0),(-1,0),colors.HexColor('#E8DFFA')),('BOTTOMPADDING',(0,0),(-1,-1),8)])); story.append(table)
+    table=Table(data,repeatRows=1,colWidths=[135,117,117,117],hAlign='LEFT'); table.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('BACKGROUND',(0,0),(-1,0),colors.HexColor('#DDEDE3' if brand == 'Momenta' else '#E8DFFA')),('BOTTOMPADDING',(0,0),(-1,-1),8)])); story.append(table)
     for section in ['themes','activities','food','logistics','risks','next_actions','ideas']:
         add(section.replace('_',' ').title(),'Heading2')
         for text in getattr(plan.suggestions,section): add(text)
@@ -60,7 +60,7 @@ def pdf_export(plan: Plan) -> bytes:
     for v in plan.vendors: add(f'{v.category} | {v.status} | {money(v.estimated,plan.event.currency)} | {v.notes} | {v.contact}')
     def footer(canvas,document):
         canvas.setFont('Helvetica',8); canvas.setFillColor(colors.HexColor('#655879'))
-        canvas.drawString(36,24,'CelebrAI | Illustrative planning allowances; confirm with vendors')
+        canvas.drawString(36,24,f'{brand} | Illustrative planning allowances; confirm with vendors')
         canvas.drawRightString(document.pagesize[0]-36,24,f'Page {document.page}')
-    SimpleDocTemplate(output,title='CelebrAI event plan',author='CelebrAI',rightMargin=36,leftMargin=36).build(story,onFirstPage=footer,onLaterPages=footer)
+    SimpleDocTemplate(output,title=f'{brand} event plan',author=brand,rightMargin=36,leftMargin=36).build(story,onFirstPage=footer,onLaterPages=footer)
     return output.getvalue()

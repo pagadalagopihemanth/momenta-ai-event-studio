@@ -1,73 +1,115 @@
-# CelebrAI
+# Momenta — AI Event Studio
 
-**Plan smarter. Celebrate better.** A local-first celebration planning studio for the PromptWars Virtual Challenge by Hack2skill, topic: Celebration & Event Planner. No unverified judging rules or submission requirements are assumed.
+**Make moments happen.**
 
-The enhanced **React CelebrAI Studio** runs alongside this original Streamlit app. Start with [START_STUDIO.md](START_STUDIO.md), the [two-minute walkthrough](docs/TWO_MINUTE_DEMO.md) and [Live AI integration guide](docs/AI_INTEGRATION.md). All five AI workflows are now available through the React UI with per-request approval; the original Streamlit code remains unchanged.
+**[Watch the final genuine GenAI demo — 3:36.83](https://drive.google.com/file/d/1XDARxC-xE-c1jaHbw7NWyblc-bSfNNmv/view)** · Drive access is currently restricted; public viewing awaits owner approval.
 
-## Start locally
+An AI-assisted celebration planner for weddings, birthdays and community events. Momenta turns a personal brief into budgets, timelines, vendor checklists and creative ideas. Prepared for the **PromptWars Virtual — Celebration & Event Planner** topic supplied by the project owner; no unverified organizer criteria, deadlines or endorsements are claimed.
 
-Python 3.11+ (developed on Windows with Python 3.13).
+![Momenta landing page](docs/momenta-desktop-landing.png)
+
+## Why Momenta
+
+Planning an event means coordinating people, money, dates and hundreds of small decisions. Momenta puts them in one persistent workspace. Its signature **Budget Rescue** protects the expenses that matter when a budget changes, explains trade-offs and lets the host review every change before saving.
+
+## Demo video
+
+[![Watch the final Momenta demonstration](submission/Momenta_Thumbnail.png)](https://drive.google.com/file/d/1XDARxC-xE-c1jaHbw7NWyblc-bSfNNmv/view)
+
+Verified 1920×1080 / 30 FPS footage shows genuine wedding planning and Budget Rescue responses, live form entry, review and confirmation, timeline, vendors, readiness and PDF export. The impossible-budget validation segment is explicitly labeled deterministic/offline; it makes no model call. The local MP4 is excluded from Git. Drive access is restricted pending approval.
+
+See [secure live setup and approved allowance](submission/LIVE_SETUP.md), [Antigravity workflow](submission/ANTIGRAVITY_WORKFLOW.md), [submission status](submission/STATUS.md), [recording instructions](submission/RECORDING.md) and [hosting plan](submission/HOSTING.md).
+
+## Features
+
+| Experience | Working capabilities |
+|---|---|
+| Event creation | Three occasion types; date, city, guests, budget, culture, diet and priorities |
+| Command Center | Budget health, countdown, progress, milestones and recommendations |
+| AI Planning Studio | Context-aware conversation, generation, editable suggestions and save confirmation |
+| Budget Studio | Editable allocations/planned/actual spending, currencies and interactive charts |
+| Budget Rescue | Protected expenses, exact reallocations, before/after comparisons and updated tasks |
+| Timeline & tasks | Relative deadlines, dependencies, calendar, completion and overdue warnings |
+| Vendor workspace | Categories, allowances, notes, contacts, priority and booking status |
+| Inspiration board | Reference photography, palettes, personalized ideas and saved concepts |
+| What-if simulator | Compare budgets, guests, setting and theme without changing a plan |
+| Readiness | Transparent rule-based score and separate optional AI critic |
+| Exports | Complete PDF plus budget, timeline and vendor CSVs |
+
+![Command center](docs/momenta-desktop-studio.png)
+![Budget Rescue](docs/momenta-rescue.png)
+
+## GenAI integration
+
+The server reuses the original Python `LiveProvider`, OpenAI SDK `responses.parse` and Pydantic structured-output validation. Five version-controlled prompt contracts handle **planning, ideas, copilot, rescue and critic**. User descriptions and conversation are treated as untrusted data.
+
+**Offline Demo** uses disclosed templates and deterministic intent handling. **Live AI** makes genuine server-side model requests only when configured and explicitly approved. Selecting a mode never starts a request. Vendor contacts are redacted from context; API keys never enter the browser. Usage limits, timeouts, retry limits and request IDs limit accidental repeat calls. A request limit is not a guaranteed monetary cap.
+
+Models suggest; Python owns money, deadlines and persistence. Proposed changes require separate confirmation. AI criticism is distinguished from the deterministic score. Genuine wedding planning and Budget Rescue were verified with `gpt-6-luna`, structured validation and confirmed persistence. Combined response usage estimated $0.0008649 at the recorded rates. All five endpoints have mocked integration coverage; ideas, copilot and critic have not been separately live-tested. See [AI integration and cost controls](docs/AI_INTEGRATION.md).
+
+## Architecture and stack
+
+```mermaid
+flowchart LR
+  UI[React + TypeScript Studio] --> API[FastAPI adapter]
+  API --> Core[Python planning + validation]
+  API --> AI[Optional OpenAI provider]
+  AI --> Prompts[Versioned prompts + Pydantic]
+  Core --> DB[(SQLite)]
+  API --> Export[ReportLab PDF + Pandas CSV]
+  Fallback[Original Streamlit app] --> Core
+```
+
+Frontend: React, TypeScript, Tailwind, Motion, Radix, Lucide and Recharts. Backend: Python, FastAPI, Pydantic, SQLite, Pandas and ReportLab. Verification: Pytest, Vitest and Playwright. Streamlit/Plotly remains a fallback. Images/fonts are bundled locally; see [asset provenance](docs/ASSETS.md).
+
+## Run locally
+
+Python 3.11+ and Node.js 22+ (verified on Python 3.13/Node 24).
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python -m pip install -r requirements.txt
+.\.venv\Scripts\python -m pip install -r requirements-web.txt
+cd frontend
+npm ci
+npm run build
+cd ..
+.\.venv\Scripts\python -m uvicorn webapi.app:app --host 127.0.0.1 --port 8000
+```
+
+Open **http://127.0.0.1:8000/** and choose **Take the 2-minute tour**. Offline Demo needs no key or external service. Illustrative Bengaluru scenarios include a 300-guest INR 900,000 wedding, 40-guest INR 50,000 birthday and 150-attendee INR 150,000 meetup.
+
+Web data remains at `data/celebrai-web.db`; original Streamlit data remains at `data/celebrai.db`. Legacy module names, environment variables and storage keys preserve compatibility. Do not commit databases.
+
+### Optional Live AI
+
+Configure `OPENAI_API_KEY`, `OPENAI_MODEL` and `CELEBRAI_LIVE_ENABLED=true` in the **server process environment**, then restart Python. `.env.example` documents configuration; `.env` files are not automatically loaded. Never use `VITE_` variables for secrets. Each potentially paid request and persisted proposal still requires explicit approval.
+
+### Original fallback
+
+```powershell
 .\.venv\Scripts\python -m streamlit run app.py
 ```
 
-Open the URL printed by Streamlit (usually http://localhost:8501). No API key is needed. A wedding preview loads on first launch; save it or load one of three illustrative scenarios from Guided demo. Dates are calculated 120 days from the current local date. All estimates are illustrative allowances, not market price research or quotes.
+[Startup details](START_STUDIO.md) · [Frontend guide](frontend/README.md) · [Original application guide](docs/STREAMLIT_GUIDE.md)
 
-For the exact tested dependency versions, install `requirements.lock.txt` instead. The lock was generated on Windows/Python 3.13; use the version ranges on other platforms if a pinned wheel is unavailable. PDF visual QA used PyMuPDF as an additional development tool; it is not needed to run the app.
-
-## What you can do
-
-- Create weddings, birthdays and community events through a three-step wizard.
-- Save and reopen plans in SQLite; edit details, budget rows, tasks and vendor requirements.
-- View category charts, actual spending, remaining funds, per-guest cost and overspending alerts.
-- Preview Budget Rescue with protected categories, actual-spending floors, vendor estimate updates and new quotation tasks. Explicit confirmation is required to apply a proposal.
-- Use an offline intent-based copilot for decoration reductions, budget cuts, pending tasks, extra-guest estimates, Telugu menus, child-friendly activities and weather backups.
-- Compare guest counts, budget, venue setting and theme. Variable spending scales per guest; outdoor scenarios include a weather allowance. Theme effects need quotes.
-- Run rule-based readiness checks and export a complete PDF plus budget, vendor and timeline CSV files.
-
-## Optional OpenAI integration
-
-The default is **offline**. Offline output uses transparent templates and deterministic intent parsing; it is not a local language model. Live AI has not been tested against a paid endpoint.
-
-Environment variables are read from the process; `.env.example` is a reference, **not automatically loaded**. For PowerShell:
+## Verification
 
 ```powershell
-$env:OPENAI_API_KEY = '<your-key>'
-$env:OPENAI_MODEL = '<a-model-in-your-account-supporting-structured-outputs>'
-$env:CELEBRAI_LIVE_ENABLED = 'true'
-.\.venv\Scripts\python -m streamlit run app.py
-```
-
-Choose a workflow in Rescue & Copilot and explicitly approve each potentially paid request. ChatGPT subscriptions do not imply API credits. Never commit `.env` or keys. Configure account spending limits too: the app's session limit of three calls can reset with a new session. Requests have a 25-second timeout, at most one retry and 2,200 output tokens. These are usage bounds, not a guaranteed monetary cap. Event data is sent to OpenAI only after approval; avoid sensitive guest/contact data. Requests set `store=False`.
-
-The provider uses the [official OpenAI Structured Outputs pattern](https://developers.openai.com/api/docs/guides/structured-outputs), `responses.parse` with Pydantic. Live workflows return suggestions rather than modifying monetary or timeline state. Budget edits always pass through Python and preview confirmation. Refusals, incomplete responses and errors leave the saved plan unchanged.
-
-## Architecture
-
-`app.py` composes Streamlit UI; `celebrai/ui.py` contains shared styling. `models.py` validates event/plan contracts. `planning.py`, `budget.py`, `timeline.py` and `copilot.py` implement offline services. Vendor models and requirements live in `models.py` and `planning.py`. `storage.py` uses parameterized SQL and revision checks within transactions. `ai.py` isolates optional network access; `prompts/` contains five versioned prompt contracts. `exports.py` builds PDF and CSV output. `tests/` covers finances, planning, persistence, exports, workflows and Streamlit interactions.
-
-Money is stored as integer minor units. Decimal conversion rounds half-up; largest-remainder allocation preserves exact totals. Planned and actual costs are independent. Rescue never refunds recorded spending, preserves protected allocations, rejects infeasible targets and does not save until confirmed. Revision conflicts prevent stale saves.
-
-Prompt architecture separates generative language from authoritative computations. Each workflow has one responsibility, an explicit schema, untrusted-input instructions and a sample JSON response. The critic has an independent reviewer role. Model output is never executed as code or SQL and cannot call tools. These controls reduce prompt-injection impact; they cannot guarantee perfect language-model behavior.
-
-## Verify
-
-```powershell
+.\.venv\Scripts\python -m pip install -r requirements-test.txt
 .\.venv\Scripts\python -m pytest -q
-.\.venv\Scripts\python -m pip check
+cd frontend
+npm test
+npm run build
 ```
 
-## Deployment
+Executed: **65 Python tests, 17 frontend tests, production build passed**. Real browser workflows cover creation, generation preview/confirmation, rescue, impossible-budget rejection, readiness and PDF download. See [verification](submission/VERIFICATION.md). Python emits an existing Starlette/httpx TestClient deprecation warning.
 
-Run the same Streamlit command on a Python host with persistent writable disk; set `CELEBRAI_DB` to a durable path. Bind to the host's port with `--server.address 0.0.0.0 --server.port 8501`. For Streamlit Community Cloud use `app.py` and `requirements.txt`; its local disk may be ephemeral, so do not rely on it for permanent storage. Keep secrets in the host's secret manager/environment. No deployment is performed by this project.
+## Recording and submission package
 
-This MVP is intended for one trusted planner locally. Before a public multi-user launch, add authentication, per-user authorization, durable database backups, rate limiting, access controls and retention policies. SQLite is shared across sessions; there is no user isolation.
+Install `requirements-recording.txt`, then follow [RECORDING.md](submission/RECORDING.md). The scripts use actual browser interactions and a fresh private database, add a visible cursor/captions, and verify the MP4. Offline footage is always labeled rehearsal. MP4s, ZIPs, raw footage and private data are excluded from Git.
 
-## Known limitations
+Target repository name: **`momenta-ai-event-studio`**. The verified video is hosted privately on Drive. No public repository, deployed app or challenge submission receipt exists yet. No paid call, upload, sharing change, push or challenge submission occurs without approval.
 
-Offline copilot recognizes a bounded set of intents and may ask users to use structured controls. Budget numbers in free text are interpreted in the event currency. Capacity, safety, prices, vendors and cultural suitability require human verification. The simulator is a transparent approximation. Changing the event date resets task completion. PDF standard fonts support Latin text and use `INR` for rupees; non-Latin names may need a Unicode font enhancement. Local dates follow the deployment host timezone. There is no booking, messaging, guest-level database, payment processing or automated vendor lookup.
+## Limitations
 
-See [demo script](docs/DEMO.md), [submission draft](docs/SUBMISSION.md) and [verification record](docs/VERIFICATION.md).
+Local single-planner MVP; not a hardened multi-user public service. Allowances are illustrative, not actual vendor quotes. Availability and cultural/safety suitability need human review. Readiness is a heuristic, not a guarantee. Two live workflows were verified within the approved allowance; other live workflows retain mocked coverage only. No trademark-clearance claim is made.

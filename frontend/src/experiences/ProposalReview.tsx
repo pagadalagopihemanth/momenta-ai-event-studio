@@ -1,3 +1,4 @@
+import { BudgetComparison } from "../components/BudgetComparison";
 import { useEffect, useState } from "react";
 import { ArrowRight, CheckCheck, LoaderCircle } from "lucide-react";
 import type { Plan, Proposal } from "../types";
@@ -50,6 +51,7 @@ export function ProposalReview({
         </div>
         <Badge tone="sand">AWAITING YOUR REVIEW</Badge>
       </div>
+      <BudgetComparison before={p} after={q.plan}/>
       <p className="proposal-explanation">{q.explanation}</p>
       <div className="table-scroll">
         <table className="comparison-table">

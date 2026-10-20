@@ -19,7 +19,16 @@ class LiveProvider:
         from openai import OpenAI
         self.calls+=1
         prompt=(Path(__file__).parent.parent/'prompts'/f'{workflow}.md').read_text(encoding='utf-8')
-        client=OpenAI(api_key=key,timeout=25,max_retries=1)
-        response=client.responses.parse(model=model,instructions=prompt,input=payload,text_format=Suggestions,max_output_tokens=2200,store=False)
+        submission = os.getenv('CELEBRAI_SUBMISSION_LIMITS') == 'true'
+        if submission:
+            from .submission_limits import reserve
+            reserve(model, workflow, prompt, payload, Suggestions.model_json_schema())
+        connection = {'base_url': 'https://api.openai.com/v1'} if submission else {}
+        client=OpenAI(api_key=key,timeout=25,max_retries=1,**connection)
+        options = {'reasoning': {'effort': 'none'}, 'service_tier': 'default'} if submission else {}
+        response=client.responses.parse(model=model,instructions=prompt,input=payload,text_format=Suggestions,max_output_tokens=2200,store=False,**options)
+        if submission:
+            from .submission_limits import record_usage
+            record_usage(workflow, response.usage)
         if response.output_parsed is None: raise ValueError('AI refused or returned an incomplete response. Your saved plan is unchanged.')
         return response.output_parsed

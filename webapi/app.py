@@ -266,9 +266,10 @@ def create_app(db_path: str | None = None) -> FastAPI:
                 'assumptions':'Catering, invitations and transportation scale per guest. Other costs stay fixed. Outdoor adds 5% of the scenario budget. Theme costs require real vendor quotes. This comparison never changes your saved plan.'}
 
     @app.get('/api/plans/{id}/exports/{kind}')
-    def export(id: str, kind: Literal['pdf','budget','tasks','vendors']):
-        p=get_plan(id); data=pdf_export(p) if kind=='pdf' else csv_export(p,kind)
+    def export(id: str, kind: Literal['pdf','budget','tasks','vendors'], brand: Literal['celebrai','momenta'] = 'celebrai'):
+        p=get_plan(id); data=(pdf_export(p, brand='Momenta', tagline='Make moments happen.') if brand=='momenta' else pdf_export(p)) if kind=='pdf' else csv_export(p,kind)
         filename={'pdf':'celebrai-plan.pdf','budget':'celebrai-budget.csv','tasks':'celebrai-timeline.csv','vendors':'celebrai-vendors.csv'}[kind]
+        if brand=='momenta': filename=filename.replace('celebrai-', 'momenta-')
         return Response(data,media_type='application/pdf' if kind=='pdf' else 'text/csv; charset=utf-8',headers={'Content-Disposition':f'attachment; filename="{filename}"', 'Cache-Control':'no-store', 'X-Content-Type-Options':'nosniff'})
 
     # After `npm run build`, one local Python process can serve the complete app.

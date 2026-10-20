@@ -10,27 +10,44 @@ export function EventForm({
   onSave,
   onCancel,
   demo = false,
+  initialKind = "Wedding",
 }: {
   existing?: Plan;
   busy: boolean;
   onSave: (event: Event) => Promise<void>;
   onCancel: () => void;
   demo?: boolean;
+  initialKind?: Event["kind"];
 }) {
   const [step, setStep] = useState(0),
     [error, setError] = useState("");
   const [event, setEvent] = useState<Event>(
     existing?.event || {
       name: demo ? "Ananya & Arjun · Guided wedding demo" : "",
-      kind: "Wedding",
+      kind: demo ? "Wedding" : initialKind,
       date: new Date(Date.now() + 120 * 86400000).toLocaleDateString("en-CA"),
       city: "Bengaluru",
       location: "Venue to be decided",
-      budget: 90000000,
+      budget:
+        demo || initialKind === "Wedding"
+          ? 90000000
+          : initialKind === "Birthday"
+            ? 5000000
+            : 15000000,
       currency: "INR",
-      guests: 300,
-      duration: 6,
-      theme: "Traditional South Indian",
+      guests:
+        demo || initialKind === "Wedding"
+          ? 300
+          : initialKind === "Birthday"
+            ? 40
+            : 150,
+      duration: demo || initialKind === "Wedding" ? 6 : 4,
+      theme:
+        demo || initialKind === "Wedding"
+          ? "Traditional South Indian"
+          : initialKind === "Birthday"
+            ? "Modern themed party"
+            : "AI developer community",
       preferences: demo
         ? "Telugu traditions; vegetarian menu; step-free access; label allergens."
         : "",

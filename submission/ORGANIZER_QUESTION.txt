@@ -1,0 +1,7 @@
+Unsent clarification for PromptWars organizers
+
+Your Virtual page allows “Google Antigravity or other AI tools” in one building-phase section, but its FAQ requires Antigravity. Momenta is an existing Codex-assisted React/FastAPI event planner with server-side OpenAI integration; we have not claimed Antigravity use.
+
+Can this entry qualify if we use Antigravity now to inspect the existing repository, run and assess tests, add a meaningful missing regression test or fix a confirmed defect, and retain the prompt, diff and test evidence? Is a rebuild or earlier Antigravity usage required?
+
+Please confirm the active Celebration & Event Planner submission window, exact submission URL fields and accepted video hosting format, and whether a public code repository, live preview, technical article and LinkedIn post are mandatory for this edition.

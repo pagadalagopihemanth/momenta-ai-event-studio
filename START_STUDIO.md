@@ -1,6 +1,6 @@
-# Start the new CelebrAI Studio
+# Start Momenta | AI Event Studio
 
-The original Streamlit app is preserved. The new interface lives in `frontend/` and reuses Python through `webapi/`.
+Make moments happen. The original CelebrAI Streamlit app is preserved. The new interface lives in `frontend/` and reuses Python through `webapi/`.
 
 From this folder:
 
@@ -17,7 +17,7 @@ Open **http://127.0.0.1:8000**. Dependencies only need installing once; after bu
 
 No API key or paid service is needed. All reference images are bundled locally. Existing Streamlit data is preserved; web events use a separate database by default.
 
-Start with **2-minute demo** in the top bar. It walks through creating a wedding, personalized generation, budget review, protected Budget Rescue, explicit confirmation, readiness and a real PDF download.
+Start with **Take the 2-minute tour** on the landing page, or **2-minute demo** in the workspace top bar. It walks through creating a wedding, personalized generation, budget review, protected Budget Rescue, explicit confirmation, readiness and a real PDF download.
 
 The React UI now supports **Offline Demo** and **Live AI**. Offline is the default. To enable the optional live provider, configure `CELEBRAI_LIVE_ENABLED=true`, `OPENAI_API_KEY` and `OPENAI_MODEL` in the **Python server process**, then restart it. `.env.example` is a reference; `.env` files are not loaded automatically. Never use Vite variables for a secret. Enabling Live AI does not initiate a call: each request requires its own approval dialog, and applying a plan still requires a separate confirmation. See [AI integration and cost controls](docs/AI_INTEGRATION.md).
 
@@ -28,3 +28,5 @@ To launch the original fallback:
 ```
 
 See [complete frontend guide](frontend/README.md), [migration architecture](docs/MIGRATION.md) and [verification record](docs/WEB_VERIFICATION.md).
+
+For verification, install `requirements-test.txt`, run `python -m pytest -q`, then run `npm test` and `npm run build` from `frontend/`. See [Momenta design and compatibility notes](docs/MOMENTA.md).

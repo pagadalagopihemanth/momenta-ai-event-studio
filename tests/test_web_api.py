@@ -104,3 +104,27 @@ def test_event_brief_validates_budget_and_rebuilds_dates(client):
     assert all(t['due']<=event['date'] for t in response.json()['tasks'])
     event['budget']-=1
     assert client.put(url+'/event',json={'revision':response.json()['revision'],'event':event}).status_code==422
+
+def test_momenta_export_brand_is_opt_in_and_legacy_exports_remain(client):
+    from io import BytesIO, StringIO
+    import csv
+    from pypdf import PdfReader
+    p=seed(client)
+    root=f'/api/plans/{p["id"]}/exports/'
+    for kind,name in [('pdf','plan.pdf'),('budget','budget.csv'),('tasks','timeline.csv'),('vendors','vendors.csv')]:
+        result=client.get(root+kind+'?brand=momenta')
+        assert result.status_code==200
+        assert result.headers['content-disposition']==f'attachment; filename="momenta-{name}"'
+        assert result.headers['cache-control']=='no-store'
+        if kind=='pdf':
+            pdf=PdfReader(BytesIO(result.content))
+            text='\n'.join(page.extract_text() for page in pdf.pages)
+            assert 'Momenta | Make moments happen.' in text
+            assert pdf.metadata.author=='Momenta'
+            assert ' '.join(p['event']['name'].replace('\u00b7', ' / ').split()) in ' '.join(text.split())
+        else:
+            assert len(list(csv.DictReader(StringIO(result.content.decode('utf-8-sig')))))==len(p['budget' if kind=='budget' else kind])
+    legacy=PdfReader(BytesIO(client.get(root+'pdf').content))
+    assert legacy.metadata.author=='CelebrAI'
+    assert 'CelebrAI | Plan smarter. Celebrate better.' in legacy.pages[0].extract_text()
+    assert client.get(root+'pdf?brand=unknown').status_code==422

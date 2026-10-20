@@ -1,0 +1,31 @@
+{
+  "model": "gpt-6-luna",
+  "responses": [
+    {
+      "workflow": "planning",
+      "reserved_usd": 0.0055602,
+      "input_tokens": 2143,
+      "output_tokens": 342,
+      "estimated_usd": 0.0003853
+    },
+    {
+      "workflow": "rescue",
+      "reserved_usd": 0.0059543999999999995,
+      "input_tokens": 2631,
+      "output_tokens": 433,
+      "estimated_usd": 0.0004796
+    }
+  ],
+  "estimated_response_cost_usd": 0.0008649,
+  "paid_workflow_requests": 2,
+  "extra_generation_for_recording": false,
+  "structured_validation_passed": true,
+  "protected_catering_inr": 270000,
+  "protected_photography_inr": 108000,
+  "final_budget_inr": 700000,
+  "edge_http_status": 422,
+  "edge_mode": "offline deterministic validation; no model call",
+  "pdf_pages": 4,
+  "invoice_verified": false,
+  "uploaded": false
+}

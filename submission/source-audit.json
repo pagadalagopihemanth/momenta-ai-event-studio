@@ -1,0 +1,9 @@
+{
+  "heuristic_scan_passed": true,
+  "source_files": 137,
+  "staged_files": 86,
+  "reachable_history_blobs": 163,
+  "findings": [],
+  "forbidden_public_files": [],
+  "limitations": "Pattern-based scan; binaries require visual inspection. Not a complete secret-detection guarantee."
+}

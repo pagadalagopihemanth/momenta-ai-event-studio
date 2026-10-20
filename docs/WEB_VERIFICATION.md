@@ -1,3 +1,5 @@
+> Historical CelebrAI Studio verification. For the current Momenta rebrand, see [MOMENTA_VERIFICATION.md](MOMENTA_VERIFICATION.md).
+
 # React migration verification
 
 The first vertical slice was verified before the remaining experiences were implemented.

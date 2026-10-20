@@ -1,0 +1,24 @@
+{
+  "final_video": {
+    "file": "Momenta_PromptWars_Final.mp4",
+    "title": "Momenta — AI Event Studio | PromptWars Virtual 2026",
+    "description": "A GenAI-powered celebration and event planning assistant that creates personalized plans, budgets, timelines, vendor checklists, and AI-powered budget optimization.",
+    "preferred_host": "YouTube Unlisted or Google Drive Anyone with the link / Viewer",
+    "exists": false
+  },
+  "rehearsal": {
+    "file": "Momenta_PromptWars_Rehearsal.mp4",
+    "title": "Momenta — AI Event Studio | Offline rehearsal - no live model calls",
+    "final_submission": false
+  },
+  "google_drive_authenticated_read_verified": true,
+  "google_drive_upload_capability_available": true,
+  "upload_approved": false,
+  "sharing_change_approved": false,
+  "upload_executed": false,
+  "public_video_url": null,
+  "repository_name": "momenta-ai-event-studio",
+  "repository_publication_approved": false,
+  "public_repository_url": null,
+  "submission_url": null
+}

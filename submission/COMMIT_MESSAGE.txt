@@ -1,0 +1,9 @@
+Prepare Momenta Studio and verified PromptWars submission package
+
+Preserve Python services, SQLite compatibility and Streamlit fallback.
+Include the completed React Studio, structured AI workflows, bounded live
+recording, exports, screenshots and accurate setup/submission documentation.
+
+Record two genuine planning/rescue results and the verified private Drive
+video link. Keep secrets, databases, MP4s and raw footage outside Git.
+Public sharing, repository publication, deployment and submission remain gated.
