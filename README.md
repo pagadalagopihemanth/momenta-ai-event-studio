@@ -2,7 +2,7 @@
 
 **Make moments happen.**
 
-**[Watch the final genuine GenAI demo — 3:36.83](https://drive.google.com/file/d/1XDARxC-xE-c1jaHbw7NWyblc-bSfNNmv/view)** · Drive access is currently restricted; public viewing awaits owner approval.
+**[Watch the final genuine GenAI demo — 3:36.83](https://drive.google.com/file/d/1XDARxC-xE-c1jaHbw7NWyblc-bSfNNmv/view)** · Anyone with the link can view; signed-out playback verified.
 
 An AI-assisted celebration planner for weddings, birthdays and community events. Momenta turns a personal brief into budgets, timelines, vendor checklists and creative ideas. Prepared for the **PromptWars Virtual — Celebration & Event Planner** topic supplied by the project owner; no unverified organizer criteria, deadlines or endorsements are claimed.
 
@@ -16,7 +16,7 @@ Planning an event means coordinating people, money, dates and hundreds of small 
 
 [![Watch the final Momenta demonstration](submission/Momenta_Thumbnail.png)](https://drive.google.com/file/d/1XDARxC-xE-c1jaHbw7NWyblc-bSfNNmv/view)
 
-Verified 1920×1080 / 30 FPS footage shows genuine wedding planning and Budget Rescue responses, live form entry, review and confirmation, timeline, vendors, readiness and PDF export. The impossible-budget validation segment is explicitly labeled deterministic/offline; it makes no model call. The local MP4 is excluded from Git. Drive access is restricted pending approval.
+Verified 1920×1080 / 30 FPS footage shows genuine wedding planning and Budget Rescue responses, live form entry, review and confirmation, timeline, vendors, readiness and PDF export. The impossible-budget validation segment is explicitly labeled deterministic/offline; it makes no model call. The local MP4 is excluded from Git. Public Viewer access and signed-out playback are verified.
 
 See [secure live setup and approved allowance](submission/LIVE_SETUP.md), [Antigravity workflow](submission/ANTIGRAVITY_WORKFLOW.md), [submission status](submission/STATUS.md), [recording instructions](submission/RECORDING.md) and [hosting plan](submission/HOSTING.md).
 
@@ -108,7 +108,7 @@ Executed: **65 Python tests, 17 frontend tests, production build passed**. Real 
 
 Install `requirements-recording.txt`, then follow [RECORDING.md](submission/RECORDING.md). The scripts use actual browser interactions and a fresh private database, add a visible cursor/captions, and verify the MP4. Offline footage is always labeled rehearsal. MP4s, ZIPs, raw footage and private data are excluded from Git.
 
-Target repository name: **`momenta-ai-event-studio`**. The verified video is hosted privately on Drive. No public repository, deployed app or challenge submission receipt exists yet. No paid call, upload, sharing change, push or challenge submission occurs without approval.
+Target repository name: **`momenta-ai-event-studio`**. Published repository: [momenta-ai-event-studio](https://github.com/pagadalagopihemanth/momenta-ai-event-studio). The verified video is viewable by anyone with the link. No deployed app or challenge submission receipt exists yet. No paid call, upload, sharing change, push or challenge submission occurs without approval.
 
 ## Limitations
 

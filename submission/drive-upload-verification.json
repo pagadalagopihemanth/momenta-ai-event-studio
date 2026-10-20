@@ -1,17 +1,19 @@
 {
   "file_id": "1XDARxC-xE-c1jaHbw7NWyblc-bSfNNmv",
   "url": "https://drive.google.com/file/d/1XDARxC-xE-c1jaHbw7NWyblc-bSfNNmv/view?usp=drivesdk",
-  "sharing": "restricted; owner only",
-  "shared": false,
+  "sharing": "anyone with the link \u2014 Viewer",
+  "shared": true,
   "bytes": 4921211,
   "sha256": "062d76e6fbf88820a73e853b631d36227584ad57b8b7bf479b5dd78e602db7b1",
   "download_byte_for_byte_match": true,
   "download_full_decode_passed": true,
   "download_browser_playback_passed": true,
   "duration_seconds": 216.833333,
-  "drive_embedded_preview": "still processing; playback not yet verified",
-  "public_link_enabled": false,
-  "github_published": false,
+  "drive_embedded_preview": "anonymous playback verified: currentTime advanced beyond 6 seconds; paused=false; no error",
+  "public_link_enabled": true,
+  "github_published": true,
   "deployed": false,
-  "submitted": false
+  "submitted": false,
+  "anonymous_playback_verified": true,
+  "github_url": "https://github.com/pagadalagopihemanth/momenta-ai-event-studio"
 }
