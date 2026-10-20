@@ -12,7 +12,7 @@ export function PublicDemoNotice() {
   }, []);
   if (!publicDemo) return null;
   return <aside role="note" style={{padding: '12px 20px', background: '#111318', color: '#F5F2EB', fontSize: 14, textAlign: 'center'}}>
-    Public Offline Demo · Use sample information. Your browser workspace expires after 24 hours; export your plan to keep it. Live AI is disabled here.{' '}
+    Public Offline Demo · Use sample information. Your disposable browser workspace may reset on sleep or restart (24-hour maximum); export your plan to keep it. Live AI is disabled here.{' '}
     <a style={{color: '#64E4C4', textDecoration: 'underline'}} href="https://drive.google.com/file/d/1XDARxC-xE-c1jaHbw7NWyblc-bSfNNmv/view" target="_blank" rel="noreferrer">Watch verified genuine AI</a>
   </aside>;
 }

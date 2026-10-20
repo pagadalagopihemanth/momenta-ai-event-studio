@@ -1,4 +1,6 @@
-# Public demo deployment — prepared locally, not deployed
+# Public demo deployment — not deployed
+
+**Current owner-approved choice: Render Free only, using `render.free.yaml`, with disposable data and no disk/payment method. Stop if payment is required.** The paid configuration below is retained only as an unapproved fallback. See FREE_HOSTING.md.
 
 ## Recommended architecture and cost
 

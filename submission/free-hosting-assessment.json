@@ -1,0 +1,13 @@
+{
+  "reviewed_commit_published": "d0b34fc",
+  "free_recommendation": "Render Free Docker web service, no disk, no model credentials",
+  "free_blueprint_schema_valid": true,
+  "expected_baseline_usd": 0,
+  "zero_cost_condition": "No payment method / no billing-triggering upgrade; usage exhaustion may suspend service",
+  "free_configuration_published": true,
+  "resources_created": false,
+  "deployed": false,
+  "paid_ai_calls": 0,
+  "final_video_sha256": "062d76e6fbf88820a73e853b631d36227584ad57b8b7bf479b5dd78e602db7b1",
+  "owner_approved_free_deployment": true
+}

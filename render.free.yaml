@@ -1,0 +1,19 @@
+# FREE ONLY. Do not create/deploy any service without owner approval.
+# No persistent disk, database service, paid plan, API key or automatic upgrades.
+services:
+- type: web
+  name: momenta-ai-event-studio-free
+  runtime: docker
+  region: singapore
+  plan: free
+  branch: main
+  autoDeployTrigger: 'off'
+  healthCheckPath: /api/health
+  numInstances: 1
+  envVars:
+  - key: MOMENTA_SESSION_SECRET
+    generateValue: true
+  - key: MOMENTA_DEMO_DATA
+    value: /tmp/momenta-disposable-demo
+  - key: CELEBRAI_LIVE_ENABLED
+    value: 'false'
